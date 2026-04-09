@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login - BorrowMySkill{% endblock %}
+
+{% block content %}
+<main class="container" style="display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+    <div class="auth-container glass" style="max-width: 450px; width: 100%;">
+        <div class="auth-header">
+            <h1 class="text-gradient">Welcome Back</h1>
+            <p>Login to your account and start borrowing skills</p>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            {% if error %}
+            <div class="alert alert-danger" style="color: red; margin-bottom: 1rem; text-align: center;">
+                {{ error }}
+            </div>
+            {% endif %}
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label for="username" style="font-weight: 600;">Username</label>
+                <input type="text" name="username" class="form-control" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+                <label for="password" style="font-weight: 600;">Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn btn-block" style="margin-top: 1rem;">Login Securely</button>
+        </form>
+        <div style="margin-top: 1.5rem; text-align: center;">
+            <a href="/accounts/google/login/" style="text-decoration:none; display: inline-block;">
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    gap:10px;
+                    background:white;
+                    border:1px solid #ddd;
+                    padding:10px 15px;
+                    border-radius:6px;
+                    cursor:pointer;
+                ">
+                    <img src="https://developers.google.com/identity/images/g-logo.png" width="20">
+                    <span style="color:#444; font-weight: 600;">Sign in with Google</span>
+                </div>
+            </a>
+        </div>
+        <div class="auth-footer" style="margin-top: 2rem; text-align: center;">
+            Don't have an account? <a href="{% url 'register' %}" style="font-weight: 600;">Register here</a>
+        </div>
+    </div>
+</main>
+{% endblock %}

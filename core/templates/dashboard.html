@@ -1,0 +1,117 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - BorrowMySkill{% endblock %}
+{% block active_dashboard %}active{% endblock %}
+
+{% block search_bar %}
+<div class="nav-search" style="flex: 1; max-width: 500px; margin: 0 2rem;">
+    <form method="GET" action="{% url 'dashboard' %}" style="position: relative;">
+        <input type="text" name="q" placeholder="Search skills, categories..." value="{{ request.GET.q|default_if_none:'' }}">
+        <button type="submit" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--primary);">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </button>
+    </form>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- HEADER -->
+<div class="section-header" style="text-align: left; margin-bottom: 2rem;">
+    <h2 class="text-gradient" style="font-size: 2.4rem;">Welcome back, {{ request.user.username|default:"User" }} 👋</h2>
+    <p style="font-size: 1.1rem; color: var(--text-light);">Manage your skills, adjust filters, and track bookings.</p>
+</div>
+
+<!-- SKILLS SECTION -->
+<section>
+    <div class="section-header" style="text-align: left; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <h3 style="font-size: 1.5rem; margin: 0;">Explore Available Skills</h3>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <form method="GET" action="{% url 'dashboard' %}">
+                {% if request.GET.q %}<input type="hidden" name="q" value="{{ request.GET.q }}">{% endif %}
+                {% if request.GET.category %}<input type="hidden" name="category" value="{{ request.GET.category }}">{% endif %}
+                <select name="price" onchange="this.form.submit()" style="padding: 0.6rem 1.2rem; border-radius: var(--radius-full); border: 1px solid var(--border); background: var(--bg-card); font-family: inherit; font-size: 0.95rem; outline: none; cursor: pointer;">
+                    <option value="">Sort by Price</option>
+                    <option value="low" {% if request.GET.price == 'low' %}selected{% endif %}>Below ₹500</option>
+                    <option value="mid" {% if request.GET.price == 'mid' %}selected{% endif %}>₹500 - ₹2000</option>
+                    <option value="high" {% if request.GET.price == 'high' %}selected{% endif %}>Above ₹2000</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <!-- GRID -->
+    <div class="skills-grid">
+        {% for skill in skills %}
+        <div class="skill-card glass" style="display: flex; flex-direction: column;">
+            <div style="height: 160px; border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; overflow: hidden; border-bottom: 1px solid rgba(255, 255, 255, 0.5);">
+                {% if skill.image %}
+                    <img src="{{ skill.image.url }}" alt="{{ skill.name }} image" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                {% else %}
+                    <img src="https://loremflickr.com/400/250/{{ skill.category|default:'coding'|slugify }}?lock={{ skill.id }}" alt="{{ skill.name }} image" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.onerror=null; this.src='https://picsum.photos/seed/{{ skill.id }}/400/250';" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                {% endif %}
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, transparent 40%); z-index: 1;"></div>
+                <span class="badge badge-gradient" style="top: 1rem; right: 1rem; position: absolute; z-index: 2; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+                    {{ skill.category|default:"Skill" }}
+                </span>
+            </div>
+            <div class="card-body" style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column; padding-top: 1rem;">
+                <h3 class="card-title" style="margin-top: 0.5rem; font-size: 1.4rem;">{{ skill.name }}</h3>
+                <div class="skill-rating" style="color: #f59e0b; font-size: 1.1rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.3rem;">
+                    ★★★★<span style="color: #cbd5e1;">★</span> <span style="color: var(--text-light); font-size: 0.9rem; margin-left: 0.2rem;">(4.0)</span>
+                </div>
+                <p class="card-text" style="flex: 1;">{{ skill.description|truncatewords:20 }}</p>
+            </div>
+            <div class="card-footer" style="padding: 1.5rem; border-top: 1px solid rgba(226, 232, 240, 0.4); background: rgba(255,255,255,0.2);">
+                <div class="card-price" style="font-size: 1.5rem;">₹{{ skill.price }} <span style="font-size: 0.9rem;">/hr</span></div>
+                <a href="{% url 'booking' skill.id %}" class="btn" style="padding: 0.6rem 1.2rem; font-size: 0.95rem;">Book Now &rarr;</a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="skill-card glass" style="grid-column: 1 / -1; align-items: center; justify-content: center; padding: 4rem 2rem; text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+            <h3 style="margin-bottom: 0.5rem; color: var(--text-dark);">No skills found</h3>
+            <p style="color: var(--text-light); margin-bottom: 1.5rem;">We couldn't find any skills matching your search or filters.</p>
+            <a href="{% url 'dashboard' %}" class="btn btn-outline">&larr; Clear Filters</a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border);">
+
+<!-- EXISTING BOOKINGS (Preview) -->
+<section>
+    <div class="section-header" style="text-align: left; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.5rem; margin: 0;">Your Upcoming Bookings</h3>
+    </div>
+    <div class="list-group" style="display: flex; flex-direction: column; gap: 1rem;">
+        {% for booking in bookings|slice:":2" %}
+        <div class="list-item glass" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; border-radius: var(--radius-lg);">
+            <div class="list-item-content">
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.3rem;">{{ booking.skill.name }}</h3>
+                <div class="list-item-meta" style="color: var(--text-light); font-size: 0.95rem;">
+                    <span style="font-weight: 600;">Date:</span> {{ booking.date }} | <span style="font-weight: 600;">Time:</span> {{ booking.time }}
+                </div>
+            </div>
+            <div class="list-item-action">
+                {% if booking.status == 'Confirmed' %}
+                    <span class="badge badge-gradient" style="position: static; padding: 0.5rem 1rem;">Confirmed</span>
+                {% else %}
+                    <span class="badge badge-warning" style="position: static; padding: 0.5rem 1rem;">Pending</span>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="list-item glass" style="text-align: center; padding: 3rem; border-radius: var(--radius-lg);">
+            <p style="color: var(--text-light);">You have no active bookings.</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% if bookings %}
+    <div style="margin-top: 1.5rem; text-align: center;">
+        <a href="{% url 'my_bookings' %}" class="btn btn-outline" style="border-radius: var(--radius-lg);">Review All Bookings &rarr;</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

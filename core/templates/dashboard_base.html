@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard - BorrowMySkill{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=4.0">
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="dashboard-body" style="display: flex; flex-direction: column; min-height: 100vh; margin: 0;">
+    <!-- TOP NAVBAR -->
+    <nav class="navbar glass top-navbar" style="position: fixed; width: 100%; top: 0; z-index: 1000;">
+        <div class="nav-brand">
+            <a href="{% url 'home' %}">Borrow<span class="text-gradient">My</span>Skill</a>
+        </div>
+
+        {% block search_bar %}
+        {% endblock %}
+
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'profile' %}" style="text-decoration: none;">
+                <div class="profile-avatar" style="cursor: pointer;">
+                    {{ request.user.username|default:"U"|make_list|first|upper }}
+                </div>
+            </a>
+        </div>
+    </nav>
+
+    <div class="dashboard-wrapper">
+        <!-- LEFT SIDEBAR -->
+        <aside class="sidebar glass">
+            <ul class="sidebar-menu">
+                <li><a href="{% url 'dashboard' %}" class="sidebar-link {% block active_dashboard %}{% endblock %}">Dashboard</a></li>
+                
+                <li class="sidebar-title">Account</li>
+                <li><a href="{% url 'profile' %}" class="sidebar-link {% block active_profile %}{% endblock %}">My Profile</a></li>
+                <li><a href="{% url 'my_bookings' %}" class="sidebar-link {% block active_bookings %}{% endblock %}">My Bookings</a></li>
+                <li><a href="{% url 'logout' %}" class="sidebar-link" style="color: var(--secondary);">Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+
+    <footer class="glass" style="margin-top: auto; padding: 3rem 2rem 2rem; border-top: 1px solid rgba(255, 255, 255, 0.2); z-index: 999; position: relative;">
+        <div class="container" style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <div style="margin-bottom: 1.5rem;">
+                <h4 class="text-gradient" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">BorrowMySkill</h4>
+                <p style="color: var(--text-light); font-size: 0.95rem; max-width: 400px;">Empowering your projects with on-demand expertise. Borrow the skills you need, exactly when you need them.</p>
+            </div>
+            
+            <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem;">
+                <a href="#" style="color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.3s ease;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-light)'">About Us</a>
+                <a href="#" style="color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.3s ease;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-light)'">Terms of Service</a>
+                <a href="#" style="color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.3s ease;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-light)'">Privacy Policy</a>
+                <a href="#" style="color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.3s ease;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-light)'">Contact</a>
+            </div>
+
+            <div style="width: 100%; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 1.5rem; color: var(--text-light); font-size: 0.9rem;">
+                &copy; 2026 BorrowMySkill. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    {% include 'chatbot.html' %}
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

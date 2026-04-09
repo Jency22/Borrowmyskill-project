@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Book Skill - BorrowMySkill{% endblock %}
+
+{% block content %}
+<main class="container" style="max-width: 800px; padding-top: 4rem;">
+    <div class="section-header">
+        <h2>Book Skill</h2>
+        <p>Complete the details below to book this service.</p>
+    </div>
+
+    <div class="booking-details glass" style="margin-bottom: 2rem;">
+        <h3 style="margin-bottom: 0.5rem; font-size: 1.5rem;">{{ skill.name }}</h3>
+        <p style="color: #64748b; margin-bottom: 1.5rem;">{{ skill.description }}</p>
+        <div class="card-price">₹{{ skill.price }}<span style="font-size: 1rem; color: #64748b;">/hr</span></div>
+    </div>
+
+    <div class="booking-details glass">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label style="font-weight: 600; margin-bottom: 0.5rem; display: block;">Select Date</label>
+                <input type="date" name="date" class="form-control" required style="cursor: pointer;">
+            </div>
+            <div class="form-group">
+                <label style="font-weight: 600; margin-bottom: 0.5rem; display: block;">Select Time</label>
+                <input type="time" name="time" class="form-control" required style="cursor: pointer;">
+            </div>
+            <div style="margin-top: 2rem;">
+                <button type="submit" class="btn btn-block">Confirm Booking &rarr;</button>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

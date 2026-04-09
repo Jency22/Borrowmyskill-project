@@ -1,0 +1,130 @@
+/* Override Django Jazzmin (AdminLTE) to match user account frontend */
+
+:root {
+  /* Colors */
+  --primary: #6366f1; /* Indigo */
+  --primary-hover: #4f46e5;
+  --secondary: #ec4899; /* Pink */
+  --accent: #8b5cf6; /* Violet */
+  --info: #0dcaf0;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --light: #f8fafc;
+  --dark: #0f172a;
+
+  /* Custom AdminLTE Variable Overrides */
+  --admin-lte-primary: var(--primary);
+  --admin-lte-info: var(--info);
+  --admin-lte-success: var(--success);
+  --admin-lte-warning: var(--warning);
+  --admin-lte-danger: var(--danger);
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important;
+  background: linear-gradient(135deg, #fcedfa 0%, #eef1ff 100%) !important;
+  color: #0f172a !important;
+}
+
+/* Glassmorphism for Navbar */
+.main-header {
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Glassmorphism for Sidebar */
+.main-sidebar {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(16px) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.05) !important;
+}
+
+/* Sidebar Links */
+.nav-sidebar .nav-item > .nav-link {
+  color: #64748b !important;
+  border-radius: 12px;
+  margin: 4px 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-sidebar .nav-item > .nav-link:hover {
+  background: rgba(99, 102, 241, 0.1) !important;
+  color: var(--primary) !important;
+}
+
+.nav-sidebar .nav-item > .nav-link.active {
+  background: linear-gradient(135deg, var(--primary), var(--accent)) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Brand Logo Area */
+.brand-link {
+  color: #0f172a !important;
+  font-weight: 800 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5) !important;
+  background: transparent !important;
+}
+
+.brand-link .brand-text {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+/* Content Area */
+.content-wrapper {
+  background: transparent !important;
+}
+
+/* Cards (Modules) */
+.card {
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+}
+
+.card-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5) !important;
+  background: transparent !important;
+  color: #0f172a !important;
+  font-weight: 700;
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--accent)) !important;
+  border: none !important;
+  border-radius: 9999px !important;
+  color: #fff !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.3) !important;
+}
+
+.btn-success {
+  background: var(--success) !important;
+  border: none !important;
+  border-radius: 9999px !important;
+}
+
+/* Dashboard Info Boxes */
+.info-box {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1) !important;
+  border: 1px solid rgba(255,255,255,0.5) !important;
+}
+
+.info-box-icon {
+  border-radius: 12px !important;
+}

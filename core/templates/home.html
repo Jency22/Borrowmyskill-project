@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <span class="hero-badge">Freelancing, Evolved</span>
+        <h1 class="text-gradient">Need a Skill?<br>Just Borrow It.</h1>
+        <p>Why hire full-time? Instantly connect with vetted experts to borrow the exact skills your project needs right now.</p>
+        <div class="hero-actions" style="display: flex; gap: 1rem;">
+            <a href="#skills" class="btn">Explore Skills &darr;</a>
+            <a href="{% url 'register' %}" class="btn btn-outline">Become an Expert &rarr;</a>
+        </div>
+    </div>
+    <div class="hero-image">
+        <div class="floating-badge badge-1 glass"><span class="badge-icon">💻</span> Web Design</div>
+        <div class="floating-badge badge-2 glass"><span class="badge-icon">📈</span> SEO Expert</div>
+        <div class="floating-badge badge-3 glass"><span class="badge-icon">🐍</span> Python Coach</div>
+        <img src="{% static 'images/hero_collab.png' %}" alt="Two professionals collaborating">
+    </div>
+</section>
+
+<!-- Main Content -->
+<main class="container" id="skills">
+    <div class="section-header">
+        <h2>Discover Premium Skills</h2>
+        <p>Carefully vetted experts ready to bring your ideas to life</p>
+    </div>
+    
+    <div class="search-bar glass">
+        <input type="text" placeholder="What are you looking for today?">
+        <select>
+            <option value="">All Categories</option>
+            <option value="web">Web Development</option>
+            <option value="design">Design</option>
+            <option value="writing">Content</option>
+            <option value="data">Data Science</option>
+        </select>
+        <button class="btn">Search</button>
+    </div>
+
+    <div class="grid">
+        {% for skill in skills %}
+        <div class="card">
+            <span class="badge badge-gradient">{{ skill.category|default:"Skill" }}</span>
+            <div class="card-body">
+                <h3 class="card-title">{{ skill.name }}</h3>
+                <div class="skill-rating" style="color: #f59e0b; font-size: 1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.3rem;">
+                    ★★★★<span style="color: #cbd5e1;">★</span> <span style="color: var(--text-light); font-size: 0.85rem; margin-left: 0.2rem;">(4.0)</span>
+                </div>
+                <p class="card-text">{{ skill.description|truncatewords:20 }}</p>
+                <div class="card-footer">
+                    <div class="card-price">₹{{ skill.price }}<span>/hr</span></div>
+                    <a href="{% url 'booking' skill.id %}" class="btn">Book &rarr;</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No skills found.</p>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

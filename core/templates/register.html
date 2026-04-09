@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register - BorrowMySkill{% endblock %}
+
+{% block content %}
+<main class="container" style="display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+    <div class="auth-container glass" style="max-width: 450px; width: 100%;">
+        <div class="auth-header">
+            <h1 class="text-gradient">Create Account</h1>
+            <p>Join the community and start borrowing skills</p>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            {% if error %}
+            <div class="alert alert-danger" style="color: red; margin-bottom: 1rem; text-align: center;">
+                {{ error }}
+            </div>
+            {% endif %}
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label for="username" style="font-weight: 600;">Username</label>
+                <input type="text" name="username" class="form-control" placeholder="Choose a username" required>
+            </div>
+            <div class="form-group">
+                <label for="password" style="font-weight: 600;">Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Create a strong password" required>
+            </div>
+            <button type="submit" class="btn btn-block" style="margin-top: 1rem;">Register</button>
+        </form>
+        <div class="auth-footer" style="margin-top: 2rem; text-align: center;">
+            Already have an account? <a href="{% url 'login' %}" style="font-weight: 600;">Login here</a>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BorrowMySkill - Premium Skill Exchange{% endblock %}</title>
+    <meta name="description" content="Instantly connect with vetted experts to borrow the exact skills your project needs.">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=4.0">
+    {% block extra_head %}{% endblock %}
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100vh; margin: 0;">
+    <nav class="navbar glass top-navbar">
+        <div class="nav-brand">
+            <a href="{% url 'home' %}">
+                Borrow<span class="text-gradient">My</span>Skill
+            </a>
+        </div>
+        <div class="nav-links">
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'dashboard' %}">Dashboard</a>
+                <a href="{% url 'profile' %}" style="text-decoration: none;">
+                    <div class="profile-avatar" style="cursor: pointer;">
+                        {{ request.user.username|default:"U"|make_list|first|upper }}
+                    </div>
+                </a>
+            {% else %}
+                <a href="{% url 'login' %}">Sign In</a> 
+                <a href="{% url 'register' %}" class="btn">Get Started</a>
+            {% endif %}
+        </div>
+    </nav>
+    
+    {% block content %}
+    {% endblock %}
+
+    <footer class="glass" style="margin-top: auto; padding: 3rem 2rem 2rem; border-top: 1px solid rgba(255, 255, 255, 0.2);">
+        <div class="container" style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <div style="margin-bottom: 1.5rem;">
+                <h4 class="text-gradient" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">BorrowMySkill</h4>
+                <p style="color: var(--text-light); font-size: 0.95rem; max-width: 400px;">Empowering your projects with on-demand expertise. Borrow the skills you need, exactly when you need them.</p>
+            </div>
+            
+            <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem;">
+                <a href="#" style="color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.3s ease;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-light)'">About Us</a>
+                <a href="#" style="color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.3s ease;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-light)'">Terms of Service</a>
+                <a href="#" style="color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.3s ease;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-light)'">Privacy Policy</a>
+                <a href="#" style="color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.3s ease;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-light)'">Contact</a>
+            </div>
+
+            <div style="width: 100%; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 1.5rem; color: var(--text-light); font-size: 0.9rem;">
+                &copy; 2026 BorrowMySkill. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    {% include 'chatbot.html' %}
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

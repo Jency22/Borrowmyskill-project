@@ -1,0 +1,43 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block title %}My Profile - BorrowMySkill{% endblock %}
+{% block active_profile %}active{% endblock %}
+
+{% block content %}
+<div class="section-header" style="text-align: left; margin-bottom: 2rem;">
+    <h2 class="text-gradient" style="font-size: 2.4rem;">My Profile</h2>
+    <p style="font-size: 1.1rem; color: var(--text-light);">Manage your account details and preferences.</p>
+</div>
+
+<div class="glass" style="padding: 2.5rem; border-radius: var(--radius-lg); max-width: 800px; display: flex; flex-direction: column; gap: 2rem;">
+    
+    <div style="display: flex; align-items: center; gap: 2rem;">
+        <div style="width: 100px; height: 100px; background: var(--gradient-primary); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 3rem; box-shadow: var(--shadow-lg);">
+            {{ request.user.username|make_list|first|upper }}
+        </div>
+        <div>
+            <h3 style="font-size: 1.8rem; margin-bottom: 0.2rem; color: var(--text-dark);">{{ request.user.username }}</h3>
+            <p style="color: var(--text-light); font-size: 1.1rem;">Member since {{ request.user.date_joined|date:"F Y" }}</p>
+        </div>
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid var(--border);">
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div>
+            <label style="font-weight: 600; color: var(--text-light); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Username</label>
+            <p style="font-size: 1.1rem; color: var(--text-dark); margin-top: 0.3rem; font-weight: 500;">{{ request.user.username }}</p>
+        </div>
+        <div>
+            <label style="font-weight: 600; color: var(--text-light); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Email</label>
+            <p style="font-size: 1.1rem; color: var(--text-dark); margin-top: 0.3rem; font-weight: 500;">{{ request.user.email|default:"No email provided" }}</p>
+        </div>
+        <div>
+            <label style="font-weight: 600; color: var(--text-light); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Account Status</label>
+            <p style="font-size: 1.1rem; color: var(--success); margin-top: 0.3rem; font-weight: 700;">Active</p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

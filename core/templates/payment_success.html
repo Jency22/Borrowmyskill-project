@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Payment Successful - BorrowMySkill{% endblock %}
+
+{% block extra_head %}
+<style>
+    .success-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 4rem 3rem;
+        border-radius: var(--radius-lg);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        max-width: 500px;
+        width: 90%;
+        margin: 4rem auto;
+        animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    @keyframes scaleIn {
+        from { transform: scale(0.9); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+    .checkmark-circle {
+        width: 90px;
+        height: 90px;
+        background: rgba(16, 185, 129, 0.15);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 2rem;
+        color: #10b981;
+    }
+    .booking-summary {
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background: var(--bg-color);
+        border-radius: var(--radius);
+        text-align: left;
+    }
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.8rem;
+        font-size: 1rem;
+    }
+    .summary-row:last-child {
+        margin-bottom: 0;
+        padding-top: 0.8rem;
+        border-top: 1px dashed #cbd5e1;
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="success-card glass">
+    <div class="checkmark-circle">
+        <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+        </svg>
+    </div>
+    <h1 style="color: var(--text-dark); font-size: 2.2rem; margin-bottom: 0.5rem; letter-spacing: -1px;">Payment Successful!</h1>
+    <p style="color: var(--text-light); font-size: 1.1rem;">Your booking has been perfectly confirmed.</p>
+    <div class="booking-summary">
+        <div class="summary-row">
+            <span style="color: var(--text-light);">Skill</span>
+            <span style="font-weight: 600; color: var(--text-dark);">{{ booking.skill.name }}</span>
+        </div>
+        <div class="summary-row">
+            <span style="color: var(--text-light);">Date & Time</span>
+            <span style="font-weight: 600; color: var(--text-dark);">{{ booking.date|default:"TBD" }} | {{ booking.time|default:"TBD" }}</span>
+        </div>
+        <div class="summary-row">
+            <span>Total Paid</span>
+            <span style="color: #10b981;">₹{{ booking.skill.price }}</span>
+        </div>
+    </div>
+    <a href="{% url 'my_bookings' %}" class="btn btn-block" style="font-size: 1.1rem; padding: 1.1rem; border-radius: var(--radius-full);">View My Bookings &rarr;</a>
+    <a href="{% url 'dashboard' %}" style="display: block; margin-top: 1.5rem; color: var(--text-light); font-weight: 600; text-decoration: none; transition: color 0.3s;">&larr; Return to Dashboard</a>
+</div>
+{% endblock %}
